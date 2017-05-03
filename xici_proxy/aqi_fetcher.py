@@ -15,6 +15,7 @@ error_content = ['Access Denied', 'Unauthorized ...', '500 Internal Server Error
 
 logging.basicConfig()
 logger = logging.getLogger()
+db_location = None
 
 
 def get_page_content(start_date, end_date, page_no, proxy=False):
@@ -71,7 +72,7 @@ def parse_page(content):
 
 
 def get_db_conn():
-    return sqlite3.connect('/data/aqi/aqi.sqlite')
+    return sqlite3.connect(db_location)
 
 
 def save_record(area, value, pollutant, record_date):
@@ -136,13 +137,15 @@ if __name__ == '__main__':
     parser.add_argument('--start-date', required=True)
     parser.add_argument('--end-date', required=True)
     parser.add_argument('--log-level', default='INFO', choices=['NOTEST', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
+    parser.add_argument('--db', default='./aqi.sqlite')
     args = parser.parse_args()
 
     logger.setLevel(args.log_level)
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     proxy = args.proxy
-    proxy = True
+
+    db_location = args.db
     start_date = args.start_date
     end_date = args.end_date
     s_date = datetime.strptime(start_date, '%Y-%m-%d')

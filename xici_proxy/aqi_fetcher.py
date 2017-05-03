@@ -137,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument('--start-date', required=True)
     parser.add_argument('--end-date', required=True)
     parser.add_argument('--log-level', default='INFO', choices=['NOTEST', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-    parser.add_argument('--db', default='./aqi.sqlite')
+    parser.add_argument('--db', default='./aqi_data.sqlite')
     args = parser.parse_args()
 
     logger.setLevel(args.log_level)
